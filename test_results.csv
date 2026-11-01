@@ -1,0 +1,97 @@
+id,test,expected,actual,status
+T01,Charter validation: start < deadline and budget > 0 is valid,True,True,PASS
+T02,Charter validation: deadline < start throws ValueError,EXCEPTION: ValueError,EXCEPTION: ValueError: Project deadline (2026-09-07) must be strictly after start date (2026-12-27).,PASS
+T03,Charter validation: deadline == start throws ValueError,EXCEPTION: ValueError,EXCEPTION: ValueError: Project deadline (2026-09-07) must be strictly after start date (2026-09-07).,PASS
+T04,Charter validation: negative budget throws ValueError,EXCEPTION: ValueError,EXCEPTION: ValueError: Approved budget must be greater than zero. Received: PKR -100.0,PASS
+T05,Charter validation: zero budget throws ValueError,EXCEPTION: ValueError,EXCEPTION: ValueError: Approved budget must be greater than zero. Received: PKR 0.0,PASS
+T06,"Get charter: returns approved budget PKR 5,000,000",5000000.0,5000000.0,PASS
+T07,Closure gate: project with open defects and incomplete tasks cannot close,False,False,PASS
+T08,Closure gate: detects unresolved critical defects in blocking reasons,True,True,PASS
+T09,Closure gate: detects incomplete activities in blocking reasons,True,True,PASS
+T10,Closure gate: detects pending change requests in blocking reasons,True,True,PASS
+T11,Project close API: throws ValueError when closure gates fail,EXCEPTION: ValueError,"EXCEPTION: ValueError: Project closure rejected: 8 incomplete activities remain: ACT-05 (Appointment Booking & Concurrency Engine - 60.0%), ACT-06 (Patient Appointment Portal UI - 10.0%), ACT-08 (Lab Reports UI & Diagnostic PDF Viewer - 15.0%) and 5 more. 2 change requests are still pending decision: CR-01 (Add AI-Based Preliminary Diagnosis Module), CR-02 (Develop Smart Healthcare Mobile Application). 2 unresolved critical defects: DEF-01 (Race condition in appointment concurrency lock causing double-booking of doctor slots - Open), DEF-02 (Unauthorized patient EMR record exposure due to missing tenant partition key in session cache - Open).",PASS
+T12,Management plan: contains Scope Management Plan section,True,True,PASS
+T13,Management plan: auto-fills schedule plan with Critical Path,True,True,PASS
+T14,Management plan: auto-fills cost plan with Approved Budget Cap,True,True,PASS
+T15,Management plan: auto-fills quality plan with 5-point standard,True,True,PASS
+T16,Get requirements: initial count is 8 (6 approved + 2 proposed),8,8,PASS
+T17,Scope locking: direct requirement approval rejected outside Planning,EXCEPTION: ValueError,EXCEPTION: ValueError: Project status is 'Executing'. New requirements cannot be approved directly outside Planning. Please create the requirement as 'Proposed' and raise a Change Request.,PASS
+T18,Add requirement: proposed status succeeds in Executing phase,Proposed,Proposed,PASS
+T19,Scope locking: updating Proposed -> Approved blocked outside Planning,EXCEPTION: ValueError,EXCEPTION: ValueError: Scope is locked because project is in 'Executing' phase. Requirement 'REQ-TEST-PROP' cannot be directly approved. An approved Change Request is required to expand scope.,PASS
+T20,Scope locking: direct approval succeeds when project status is Planning,Approved,Approved,PASS
+T21,"WBS generation: unapproved requirements (REQ-07, REQ-08) omitted from WBS",True,True,PASS
+T22,WBS generation: contains all approved deliverables,7,7,PASS
+T23,WBS cost roll-up: deliverable cost equals sum of child work packages,True,True,PASS
+T24,WBS cost roll-up: total project WBS cost equals sum of deliverables,True,True,PASS
+T25,Scope boundary: adding activity on unapproved requirement rejected,EXCEPTION: ValueError,EXCEPTION: ValueError: Scope Violation: Requirement 'REQ-07 - AI-Based Preliminary Diagnosis & Symptom Checker Module' is Proposed. Activities can only be created for Approved requirements. Please raise a Change Request.,PASS
+T26,Get change requests: returns 2 pending change requests,2,2,PASS
+T27,Create change request: negative cost impact rejected,EXCEPTION: ValueError,EXCEPTION: ValueError: Cost impact cannot be negative.,PASS
+T28,Reject change request: sets status to Rejected and logs decision,Rejected,Rejected,PASS
+T29,Change request: deciding an already decided CR is rejected,EXCEPTION: ValueError,EXCEPTION: ValueError: Change Request 'CR-02' has already been decided (Rejected).,PASS
+T30,CR Approval Transaction: status transitions to Approved,Approved,Approved,PASS
+T31,"CR Approval Transaction: approved budget increased by PKR 450,000 to PKR 5,450,000",5450000.0,5450000.0,PASS
+T32,CR Approval Transaction: deadline extended by 2 weeks (14 days) to 2027-01-10,2027-01-10,2027-01-10,PASS
+T33,CR Approval Transaction: linked requirement REQ-07 status updated to Approved,Approved,Approved,PASS
+T34,"CR Approval Transaction: created new activity with estimated cost 450,000 and duration 14 days",True,True,PASS
+T35,CR Approval Transaction: initialized 5 quality checklist items for new deliverable,5,5,PASS
+T36,CPM Forward Pass: first activity baseline start equals project start (2026-09-07),2026-09-07,2026-09-07,PASS
+T37,CPM Forward Pass: ACT-01 (14 days) baseline finish is 2026-09-20,2026-09-20,2026-09-20,PASS
+T38,CPM Forward Pass: ACT-02 starts day after ACT-01 (2026-09-21),2026-09-21,2026-09-21,PASS
+T39,CPM Forecast Pass: ACT-05 6-day delay extends forecast finish to 2026-10-30,2026-10-30,2026-10-30,PASS
+T40,CPM Schedule: ACT-05 baseline finish remains unchanged at 2026-10-24,2026-10-24,2026-10-24,PASS
+T41,Circular dependency detection: detects 2-node cycle (A -> B -> A),True,True,PASS
+T42,Circular dependency rollback: rejects cycle injection and rolls back,True,True,PASS
+T43,Critical Path Method: identifies critical path activities (slack == 0),True,True,PASS
+T44,Critical Path Method: all critical activities have exactly 0 days slack,True,True,PASS
+T45,Delayed activity tracking: identifies ACT-05 as delayed,True,True,PASS
+T46,Delay propagation: ACT-05 delay pushes dependent activity ACT-06,True,True,PASS
+T47,Delay propagation: ACT-05 delay pushes dependent activity ACT-09,True,True,PASS
+T48,Resource conflict detection: computes overlapping assignments per team member,True,True,PASS
+T49,"Resource conflict structure: includes assignee, activities, and overlap dates",True,True,PASS
+T50,Milestone auto-calculation: M1 is 'Achieved' (ACT-01 is 100% complete),Achieved,Achieved,PASS
+T51,Milestone auto-calculation: M2 is 'Achieved' (ACT-03 is 100% complete),Achieved,Achieved,PASS
+T52,Milestone auto-calculation: M3 is 'Delayed' (ACT-05 finish 2026-10-30 > target 2026-10-24),Delayed,Delayed,PASS
+T53,"Update activity progress: updates percent, actual cost, and delay days",True,True,PASS
+T54,Update activity progress: successfully restores baseline values,True,True,PASS
+T55,Update activity progress: negative actual cost rejected,EXCEPTION: ValueError,EXCEPTION: ValueError: Actual cost cannot be negative.,PASS
+T56,Budget cap enforcement: activity pushing BAC > approved budget rejected,EXCEPTION: ValueError,"EXCEPTION: ValueError: Budget Cap Exceeded: Adding this activity would push total planned budget (BAC = PKR 5,500,000.00) above the approved budget (PKR 5,450,000.00). Please submit a Change Request to increase the approved budget before adding this activity.",PASS
+T57,"EVM Activity calculation: ACT-01 PV, EV, and AC match hand-calculated numbers",True,True,PASS
+T58,"EVM Activity calculation: ACT-01 CV = -45,000.00",-45000.0,-45000.0,PASS
+T59,EVM Activity calculation: ACT-01 SV = 0.00,0.0,0.0,PASS
+T60,"EVM Activity calculation: ACT-05 EV = 450,000 * 60% = 270,000.00",270000.0,270000.0,PASS
+T61,"EVM Activity calculation: ACT-05 CV = -240,000.00",-240000.0,-240000.0,PASS
+T62,EVM Activity calculation: unstarted ACT-09 EV = 0.00 and AC = 0.00,True,True,PASS
+T63,"EVM Project Total: AC equals PKR 2,800,000.00",2800000.0,2800000.0,PASS
+T64,EVM Project Indicator: CPI is strictly below 0.90 (Cost Overrun),True,True,PASS
+T65,EVM Project Indicator: SPI is strictly below 0.90 (Schedule Lag),True,True,PASS
+T66,EVM Project Formula: EAC equals BAC / CPI,True,True,PASS
+T67,EVM Project Formula: VAC equals BAC - EAC,True,True,PASS
+T68,EVM Automatic Alerts: triggers COST_OVERRUN warning,True,True,PASS
+T69,EVM Automatic Alerts: triggers SCHEDULE_DEVIATION warning,True,True,PASS
+T70,S-Curve Generation: generates weekly checkpoints across project duration,True,True,PASS
+T71,Get defects: returns at least 3 defects from case study,True,True,PASS
+T72,Defect tracker: contains exactly 2 Open Critical defects,2,2,PASS
+T73,Add defect: successfully creates new defect record,DEF-TEST-01,DEF-TEST-01,PASS
+T74,Quality checklist: recording Fail without notes is strictly rejected,EXCEPTION: ValueError,EXCEPTION: ValueError: Inspection rejection notes are strictly required when recording a 'Fail' result.,PASS
+T75,Quality checklist: recording Fail with notes succeeds,Fail,Fail,PASS
+T76,Quality checklist: Pass is BLOCKED while deliverable has critical defect,EXCEPTION: ValueError,EXCEPTION: ValueError: Inspection Pass Blocked: Deliverable 'REQ-01 - Patient Appointments & Multi-Hospital Scheduling' has unresolved critical defect(s): [DEF-01]. All critical defects must be resolved before passing quality inspection.,PASS
+T77,Quality checklist: Pass succeeds after critical defect is resolved,Pass,Pass,PASS
+T78,Deliverable readiness: detects unresolved critical defect on REQ-01,True,True,PASS
+T79,Deliverable readiness: is_ready is False when critical defect exists,False,False,PASS
+T80,Deliverable readiness: REQ-03 with 100% pass and no defects is ready,True,True,PASS
+T81,Risk rating: score 16 (4x4) evaluates to High,High,High,PASS
+T82,Risk rating: score 12 (3x4) evaluates to Medium,Medium,Medium,PASS
+T83,Risk rating: score 4 (2x2) evaluates to Low,Low,Low,PASS
+T84,Risk matrix: returns all 6 case study risks,6,6,PASS
+T85,"PDPC View: all risks contain goal, preventive, and corrective actions",True,True,PASS
+T86,Integrity audit: Scope locking check passes (no acts on unapproved reqs),True,True,PASS
+T87,Integrity audit: Budget lineage check passes (base + approved CRs),True,True,PASS
+T88,Integrity audit: Schedule lineage check passes (base + approved CR weeks),True,True,PASS
+T89,Integrity audit: WBS cost roll-up consistency passes,True,True,PASS
+T90,Dashboard Executive Summary: overall health evaluates to Red,Red,Red,PASS
+T91,Dashboard Executive Summary: tracks 2 unresolved critical defects,2,2,PASS
+T92,Downloadable Status Report: generates comprehensive report payload,True,True,PASS
+T93,Risk validation: likelihood > 5 rejected,EXCEPTION: ValueError,EXCEPTION: ValueError: Likelihood must be an integer between 1 and 5.,PASS
+T94,Activity validation: duration <= 0 rejected,EXCEPTION: ValueError,EXCEPTION: ValueError: Duration must be at least 1 day.,PASS
+T95,S-Curve PV: Planned Value curve is monotonically non-decreasing,True,True,PASS
+T96,Delete activity: deleting activity with dependents rejected,EXCEPTION: ValueError,"EXCEPTION: ValueError: Cannot delete activity 'ACT-01' (Multi-Hospital DB Schema & Partitioning): Other activities (ACT-02, ACT-04, ACT-07) depend on it as a predecessor. Remove or reassign these dependencies first.",PASS
