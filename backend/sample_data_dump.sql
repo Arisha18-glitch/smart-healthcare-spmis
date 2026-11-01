@@ -12,19 +12,19 @@ CREATE TABLE activities (
     delay_days INTEGER NOT NULL DEFAULT 0 CHECK(delay_days >= 0),
     created_at TEXT DEFAULT (datetime('now'))
 );
-INSERT INTO "activities" VALUES(1,'A01','Requirements',1,10,350000.0,1,100.0,340000.0,0,'2026-11-01 16:47:47');
-INSERT INTO "activities" VALUES(2,'A02','DB design',6,10,300000.0,6,100.0,310000.0,0,'2026-11-01 16:47:47');
-INSERT INTO "activities" VALUES(3,'A03','Architecture and UI design',4,10,300000.0,4,100.0,300000.0,0,'2026-11-01 16:47:47');
-INSERT INTO "activities" VALUES(4,'A04','Appointment backend',2,20,450000.0,1,100.0,600000.0,6,'2026-11-01 16:47:47');
-INSERT INTO "activities" VALUES(5,'A05','Appointment UI',5,15,350000.0,1,100.0,360000.0,0,'2026-11-01 16:47:47');
-INSERT INTO "activities" VALUES(6,'A06','Doctor schedule',3,15,400000.0,3,100.0,430000.0,3,'2026-11-01 16:47:47');
-INSERT INTO "activities" VALUES(7,'A07','Lab reports',3,15,400000.0,2,60.0,270000.0,0,'2026-11-01 16:47:47');
-INSERT INTO "activities" VALUES(8,'A08','Online consultation',4,20,450000.0,4,85.0,470000.0,0,'2026-11-01 16:47:47');
-INSERT INTO "activities" VALUES(9,'A09','Billing',2,15,400000.0,5,30.0,150000.0,0,'2026-11-01 16:47:47');
-INSERT INTO "activities" VALUES(10,'A10','Patient records',6,10,250000.0,6,50.0,130000.0,0,'2026-11-01 16:47:47');
-INSERT INTO "activities" VALUES(11,'A11','Integration',5,10,350000.0,1,0.0,0.0,0,'2026-11-01 16:47:47');
-INSERT INTO "activities" VALUES(12,'A12','Testing',7,15,400000.0,1,0.0,0.0,0,'2026-11-01 16:47:47');
-INSERT INTO "activities" VALUES(13,'A13','Deployment',7,8,300000.0,1,0.0,0.0,0,'2026-11-01 16:47:47');
+INSERT INTO "activities" VALUES(1,'A01','Requirements',1,10,350000.0,1,100.0,340000.0,0,'2026-11-01 16:59:58');
+INSERT INTO "activities" VALUES(2,'A02','DB design',6,10,300000.0,6,100.0,310000.0,0,'2026-11-01 16:59:58');
+INSERT INTO "activities" VALUES(3,'A03','Architecture and UI design',4,10,300000.0,4,100.0,300000.0,0,'2026-11-01 16:59:58');
+INSERT INTO "activities" VALUES(4,'A04','Appointment backend',2,20,450000.0,1,100.0,600000.0,6,'2026-11-01 16:59:58');
+INSERT INTO "activities" VALUES(5,'A05','Appointment UI',5,15,350000.0,1,100.0,360000.0,0,'2026-11-01 16:59:58');
+INSERT INTO "activities" VALUES(6,'A06','Doctor schedule',3,15,400000.0,3,100.0,430000.0,3,'2026-11-01 16:59:58');
+INSERT INTO "activities" VALUES(7,'A07','Lab reports',3,15,400000.0,2,60.0,270000.0,0,'2026-11-01 16:59:58');
+INSERT INTO "activities" VALUES(8,'A08','Online consultation',4,20,450000.0,4,85.0,470000.0,0,'2026-11-01 16:59:58');
+INSERT INTO "activities" VALUES(9,'A09','Billing',2,15,400000.0,5,30.0,150000.0,0,'2026-11-01 16:59:58');
+INSERT INTO "activities" VALUES(10,'A10','Patient records',6,10,250000.0,6,50.0,130000.0,0,'2026-11-01 16:59:58');
+INSERT INTO "activities" VALUES(11,'A11','Integration',5,10,350000.0,1,0.0,0.0,0,'2026-11-01 16:59:58');
+INSERT INTO "activities" VALUES(12,'A12','Testing',7,15,400000.0,1,0.0,0.0,0,'2026-11-01 16:59:58');
+INSERT INTO "activities" VALUES(13,'A13','Deployment',7,8,300000.0,1,0.0,0.0,0,'2026-11-01 16:59:58');
 CREATE TABLE activity_dependencies (
     activity_id INTEGER NOT NULL REFERENCES activities(id) ON DELETE CASCADE,
     predecessor_id INTEGER NOT NULL REFERENCES activities(id) ON DELETE CASCADE,
@@ -234,7 +234,7 @@ INSERT INTO "management_plan" VALUES(1,'SCOPE MANAGEMENT PLAN
 -----------------------
 1. Quality Standards: Standard 5-point verification checklist required for every approved deliverable (Architecture & Security, Unit/Integration Tests, UI/UX Standards, Concurrency Benchmarks, User Acceptance).
 2. Defect Resolution Policy: Deliverable readiness is blocked while any Critical or High defect remains open.
-3. Readiness Threshold: Deliverables require 100% inspection pass rate and 0 open critical defects before production release.','2026-11-01 21:47:47');
+3. Readiness Threshold: Deliverables require 100% inspection pass rate and 0 open critical defects before production release.','2026-11-01 21:59:58');
 CREATE TABLE milestones (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
@@ -299,7 +299,7 @@ CREATE TABLE project_charter (
     created_at TEXT DEFAULT (datetime('now')),
     updated_at TEXT DEFAULT (datetime('now'))
 );
-INSERT INTO "project_charter" VALUES(1,'Smart Healthcare Project Management System (5-Hospital Network)','Design, implement, validate, and roll out a centralized, high-availability healthcare project management and clinical workflow system across 5 hospital branches (appointments, lab diagnostics, doctor rota schedules, online consultations, billing, and electronic medical records).','Hospital Network Executive Board, Chief Medical Officers, 5 Hospital Branch Directors, Head of Nursing, Chief Financial Officer, Patient Advocacy Council, Engineering Project Team.','In-Scope: Outpatient appointments, electronic medical records, lab reports, doctor schedules, online consultations, billing. Out-of-Scope: Pharmacy hardware and external insurance underwriting.',5000000.0,5000000.0,'2026-09-07','2026-12-27','2026-12-27','Executing',0.9,0.9,'2026-10-26','2026-11-01 16:47:47','2026-11-01 16:47:47');
+INSERT INTO "project_charter" VALUES(1,'Smart Healthcare Project Management System (5-Hospital Network)','Design, implement, validate, and roll out a centralized, high-availability healthcare project management and clinical workflow system across 5 hospital branches (appointments, lab diagnostics, doctor rota schedules, online consultations, billing, and electronic medical records).','Hospital Network Executive Board, Chief Medical Officers, 5 Hospital Branch Directors, Head of Nursing, Chief Financial Officer, Patient Advocacy Council, Engineering Project Team.','In-Scope: Outpatient appointments, electronic medical records, lab reports, doctor schedules, online consultations, billing. Out-of-Scope: Pharmacy hardware and external insurance underwriting.',5000000.0,5000000.0,'2026-09-07','2026-12-27','2026-12-27','Executing',0.9,0.9,'2026-10-26','2026-11-01 16:59:58','2026-11-01 16:59:58');
 CREATE TABLE quality_checklist_items (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     deliverable_id INTEGER NOT NULL REFERENCES requirements(id) ON DELETE CASCADE,
@@ -309,26 +309,26 @@ CREATE TABLE quality_checklist_items (
     inspection_date TEXT,
     notes TEXT
 );
-INSERT INTO "quality_checklist_items" VALUES(211,1,'Architecture, security compliance and patient data encryption validation','Pending',NULL,NULL,NULL);
-INSERT INTO "quality_checklist_items" VALUES(212,1,'Core business logic unit and integration test suite 100% pass','Pending',NULL,NULL,NULL);
-INSERT INTO "quality_checklist_items" VALUES(213,1,'User interface & clinical workflow UX standards verification','Pending',NULL,NULL,NULL);
-INSERT INTO "quality_checklist_items" VALUES(214,1,'Multi-hospital concurrent performance & latency benchmark test','Pending',NULL,NULL,NULL);
-INSERT INTO "quality_checklist_items" VALUES(215,1,'Clinical staff & hospital administrative user acceptance sign-off','Pending',NULL,NULL,NULL);
-INSERT INTO "quality_checklist_items" VALUES(216,2,'Architecture, security compliance and patient data encryption validation','Pass',7,'2026-10-22','Diagnostic result upload and HL7 FHIR encryption verified.');
-INSERT INTO "quality_checklist_items" VALUES(217,2,'Core business logic unit and integration test suite 100% pass','Pass',7,'2026-10-22','Diagnostic result upload and HL7 FHIR encryption verified.');
-INSERT INTO "quality_checklist_items" VALUES(218,2,'User interface & clinical workflow UX standards verification','Pass',7,'2026-10-22','Diagnostic result upload and HL7 FHIR encryption verified.');
-INSERT INTO "quality_checklist_items" VALUES(219,2,'Multi-hospital concurrent performance & latency benchmark test','Pass',7,'2026-10-22','Diagnostic result upload and HL7 FHIR encryption verified.');
-INSERT INTO "quality_checklist_items" VALUES(220,2,'Clinical staff & hospital administrative user acceptance sign-off','Pending',NULL,NULL,NULL);
-INSERT INTO "quality_checklist_items" VALUES(221,3,'Architecture, security compliance and patient data encryption validation','Pass',7,'2026-10-10','Verified against hospital physician shift rules.');
-INSERT INTO "quality_checklist_items" VALUES(222,3,'Core business logic unit and integration test suite 100% pass','Pass',7,'2026-10-10','Verified against hospital physician shift rules.');
-INSERT INTO "quality_checklist_items" VALUES(223,3,'User interface & clinical workflow UX standards verification','Pass',7,'2026-10-10','Verified against hospital physician shift rules.');
-INSERT INTO "quality_checklist_items" VALUES(224,3,'Multi-hospital concurrent performance & latency benchmark test','Pass',7,'2026-10-10','Verified against hospital physician shift rules.');
-INSERT INTO "quality_checklist_items" VALUES(225,3,'Clinical staff & hospital administrative user acceptance sign-off','Pass',7,'2026-10-10','Verified against hospital physician shift rules.');
-INSERT INTO "quality_checklist_items" VALUES(226,6,'Architecture, security compliance and patient data encryption validation','Pending',NULL,NULL,NULL);
-INSERT INTO "quality_checklist_items" VALUES(227,6,'Core business logic unit and integration test suite 100% pass','Pending',NULL,NULL,NULL);
-INSERT INTO "quality_checklist_items" VALUES(228,6,'User interface & clinical workflow UX standards verification','Pending',NULL,NULL,NULL);
-INSERT INTO "quality_checklist_items" VALUES(229,6,'Multi-hospital concurrent performance & latency benchmark test','Pending',NULL,NULL,NULL);
-INSERT INTO "quality_checklist_items" VALUES(230,6,'Clinical staff & hospital administrative user acceptance sign-off','Pending',NULL,NULL,NULL);
+INSERT INTO "quality_checklist_items" VALUES(276,1,'Architecture, security compliance and patient data encryption validation','Pending',NULL,NULL,NULL);
+INSERT INTO "quality_checklist_items" VALUES(277,1,'Core business logic unit and integration test suite 100% pass','Pending',NULL,NULL,NULL);
+INSERT INTO "quality_checklist_items" VALUES(278,1,'User interface & clinical workflow UX standards verification','Pending',NULL,NULL,NULL);
+INSERT INTO "quality_checklist_items" VALUES(279,1,'Multi-hospital concurrent performance & latency benchmark test','Pending',NULL,NULL,NULL);
+INSERT INTO "quality_checklist_items" VALUES(280,1,'Clinical staff & hospital administrative user acceptance sign-off','Pending',NULL,NULL,NULL);
+INSERT INTO "quality_checklist_items" VALUES(281,2,'Architecture, security compliance and patient data encryption validation','Pass',7,'2026-10-22','Diagnostic result upload and HL7 FHIR encryption verified.');
+INSERT INTO "quality_checklist_items" VALUES(282,2,'Core business logic unit and integration test suite 100% pass','Pass',7,'2026-10-22','Diagnostic result upload and HL7 FHIR encryption verified.');
+INSERT INTO "quality_checklist_items" VALUES(283,2,'User interface & clinical workflow UX standards verification','Pass',7,'2026-10-22','Diagnostic result upload and HL7 FHIR encryption verified.');
+INSERT INTO "quality_checklist_items" VALUES(284,2,'Multi-hospital concurrent performance & latency benchmark test','Pass',7,'2026-10-22','Diagnostic result upload and HL7 FHIR encryption verified.');
+INSERT INTO "quality_checklist_items" VALUES(285,2,'Clinical staff & hospital administrative user acceptance sign-off','Pending',NULL,NULL,NULL);
+INSERT INTO "quality_checklist_items" VALUES(286,3,'Architecture, security compliance and patient data encryption validation','Pass',7,'2026-10-10','Verified against hospital physician shift rules.');
+INSERT INTO "quality_checklist_items" VALUES(287,3,'Core business logic unit and integration test suite 100% pass','Pass',7,'2026-10-10','Verified against hospital physician shift rules.');
+INSERT INTO "quality_checklist_items" VALUES(288,3,'User interface & clinical workflow UX standards verification','Pass',7,'2026-10-10','Verified against hospital physician shift rules.');
+INSERT INTO "quality_checklist_items" VALUES(289,3,'Multi-hospital concurrent performance & latency benchmark test','Pass',7,'2026-10-10','Verified against hospital physician shift rules.');
+INSERT INTO "quality_checklist_items" VALUES(290,3,'Clinical staff & hospital administrative user acceptance sign-off','Pass',7,'2026-10-10','Verified against hospital physician shift rules.');
+INSERT INTO "quality_checklist_items" VALUES(291,6,'Architecture, security compliance and patient data encryption validation','Pending',NULL,NULL,NULL);
+INSERT INTO "quality_checklist_items" VALUES(292,6,'Core business logic unit and integration test suite 100% pass','Pending',NULL,NULL,NULL);
+INSERT INTO "quality_checklist_items" VALUES(293,6,'User interface & clinical workflow UX standards verification','Pending',NULL,NULL,NULL);
+INSERT INTO "quality_checklist_items" VALUES(294,6,'Multi-hospital concurrent performance & latency benchmark test','Pending',NULL,NULL,NULL);
+INSERT INTO "quality_checklist_items" VALUES(295,6,'Clinical staff & hospital administrative user acceptance sign-off','Pending',NULL,NULL,NULL);
 CREATE TABLE requirements (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     req_code TEXT UNIQUE NOT NULL,
@@ -339,14 +339,14 @@ CREATE TABLE requirements (
     category TEXT NOT NULL DEFAULT 'Core Module',
     created_at TEXT DEFAULT (datetime('now'))
 );
-INSERT INTO "requirements" VALUES(1,'R1','Appointments','Multi-hospital appointment booking, time-slot reservation, doctor availability matching, and SMS confirmation notifications.','High','Approved','Core Clinical','2026-11-01 16:47:47');
-INSERT INTO "requirements" VALUES(2,'R2','Lab reports','Digital test requisition, pathology and radiology result upload, automated PDF report generation, and portal download.','Medium','Approved','Diagnostics','2026-11-01 16:47:47');
-INSERT INTO "requirements" VALUES(3,'R3','Doctor schedules','Doctor shift rostering, on-call duty scheduling, leave cover coordination, and emergency department doctor allocation across 5 hospital units.','High','Approved','Hospital Admin','2026-11-01 16:47:47');
-INSERT INTO "requirements" VALUES(4,'R4','Online consultation','Secure WebRTC video conferencing for remote doctor-patient consultations, digital prescription pad, and consultation history.','High','Approved','Telehealth','2026-11-01 16:47:47');
-INSERT INTO "requirements" VALUES(5,'R5','Billing','Automated fee computation, multi-department invoice generation, cash/card payment receipting, and daily hospital ledger balancing.','Medium','Approved','Financials','2026-11-01 16:47:47');
-INSERT INTO "requirements" VALUES(6,'R6','Patient records','Longitudinal patient health records, diagnostic history, allergies, medication tracking, and role-based HIPAA-compliant access control.','High','Approved','Core Clinical','2026-11-01 16:47:47');
-INSERT INTO "requirements" VALUES(7,'R7','AI diagnosis','Machine learning preliminary symptom triaging module suggesting differential diagnoses and recommended clinical departments.','High','Proposed','AI & Innovations','2026-11-01 16:47:47');
-INSERT INTO "requirements" VALUES(8,'R8','Mobile app','Smart Healthcare native companion application for mobile booking, instant lab alerts, and prescription access.','Medium','Proposed','Mobile Platform','2026-11-01 16:47:47');
+INSERT INTO "requirements" VALUES(1,'R1','Appointments','Multi-hospital appointment booking, time-slot reservation, doctor availability matching, and SMS confirmation notifications.','High','Approved','Core Clinical','2026-11-01 16:59:58');
+INSERT INTO "requirements" VALUES(2,'R2','Lab reports','Digital test requisition, pathology and radiology result upload, automated PDF report generation, and portal download.','Medium','Approved','Diagnostics','2026-11-01 16:59:58');
+INSERT INTO "requirements" VALUES(3,'R3','Doctor schedules','Doctor shift rostering, on-call duty scheduling, leave cover coordination, and emergency department doctor allocation across 5 hospital units.','High','Approved','Hospital Admin','2026-11-01 16:59:58');
+INSERT INTO "requirements" VALUES(4,'R4','Online consultation','Secure WebRTC video conferencing for remote doctor-patient consultations, digital prescription pad, and consultation history.','High','Approved','Telehealth','2026-11-01 16:59:58');
+INSERT INTO "requirements" VALUES(5,'R5','Billing','Automated fee computation, multi-department invoice generation, cash/card payment receipting, and daily hospital ledger balancing.','Medium','Approved','Financials','2026-11-01 16:59:58');
+INSERT INTO "requirements" VALUES(6,'R6','Patient records','Longitudinal patient health records, diagnostic history, allergies, medication tracking, and role-based HIPAA-compliant access control.','High','Approved','Core Clinical','2026-11-01 16:59:58');
+INSERT INTO "requirements" VALUES(7,'R7','AI diagnosis','Machine learning preliminary symptom triaging module suggesting differential diagnoses and recommended clinical departments.','High','Proposed','AI & Innovations','2026-11-01 16:59:58');
+INSERT INTO "requirements" VALUES(8,'R8','Mobile app','Smart Healthcare native companion application for mobile booking, instant lab alerts, and prescription access.','Medium','Proposed','Mobile Platform','2026-11-01 16:59:58');
 CREATE TABLE risks (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     risk_code TEXT UNIQUE NOT NULL,
@@ -382,10 +382,10 @@ DELETE FROM "sqlite_sequence";
 INSERT INTO "sqlite_sequence" VALUES('team_members',7);
 INSERT INTO "sqlite_sequence" VALUES('requirements',8);
 INSERT INTO "sqlite_sequence" VALUES('change_requests',2);
-INSERT INTO "sqlite_sequence" VALUES('activities',17);
+INSERT INTO "sqlite_sequence" VALUES('activities',18);
 INSERT INTO "sqlite_sequence" VALUES('milestones',6);
 INSERT INTO "sqlite_sequence" VALUES('defects',4);
-INSERT INTO "sqlite_sequence" VALUES('quality_checklist_items',230);
+INSERT INTO "sqlite_sequence" VALUES('quality_checklist_items',295);
 INSERT INTO "sqlite_sequence" VALUES('risks',6);
 INSERT INTO "sqlite_sequence" VALUES('hospitals',5);
 INSERT INTO "sqlite_sequence" VALUES('doctors',10);

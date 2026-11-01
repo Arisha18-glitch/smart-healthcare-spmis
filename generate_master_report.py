@@ -154,19 +154,39 @@ def generate_report():
         run.font.size = Pt(9.5)
         run.font.color.rgb = RGBColor(0, 0, 0)
 
-    def add_figure_block(chapter_num, title, desc, placeholder_label):
+    screenshots_dir = os.path.join(os.path.dirname(__file__), "screenshots")
+    desktop_screenshots_dir = r"c:\Users\saath\Desktop\SPMIS_Report_Screenshots"
+
+    def add_figure_block(chapter_num, title, desc, img_filename):
         num_str = get_fig_num(chapter_num)
-        # Placeholder box
-        p_box = doc.add_paragraph()
-        p_box.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        p_box.paragraph_format.space_before = Pt(8)
-        p_box.paragraph_format.space_after = Pt(3)
-        run_box = p_box.add_run(f"[ {placeholder_label} — Screenshot / Diagram Placement Box ]")
-        run_box.bold = False
-        run_box.italic = True
-        run_box.font.name = 'Times New Roman'
-        run_box.font.size = Pt(10)
-        run_box.font.color.rgb = RGBColor(80, 80, 80)
+        
+        # Check image existence
+        img_path = os.path.join(screenshots_dir, img_filename)
+        if not os.path.exists(img_path):
+            img_path = os.path.join(desktop_screenshots_dir, img_filename)
+
+        if os.path.exists(img_path):
+            p_img = doc.add_paragraph()
+            p_img.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            p_img.paragraph_format.space_before = Pt(8)
+            p_img.paragraph_format.space_after = Pt(4)
+            p_img.paragraph_format.keep_with_next = True
+            run_img = p_img.add_run()
+            try:
+                run_img.add_picture(img_path, width=Inches(5.8))
+            except Exception as e:
+                run_img.add_text(f"[ Image Error: {e} ]")
+        else:
+            p_box = doc.add_paragraph()
+            p_box.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            p_box.paragraph_format.space_before = Pt(8)
+            p_box.paragraph_format.space_after = Pt(3)
+            run_box = p_box.add_run(f"[ {img_filename} — Placement Box ]")
+            run_box.bold = False
+            run_box.italic = True
+            run_box.font.name = 'Times New Roman'
+            run_box.font.size = Pt(10)
+            run_box.font.color.rgb = RGBColor(80, 80, 80)
 
         # Caption
         p_cap = doc.add_paragraph()
@@ -477,17 +497,33 @@ def generate_report():
     # =========================================================================
     add_heading_1("LIST OF FIGURES")
     figures_list = [
-        ("Figure 3.1", "Three-Tier Decoupled System Architecture Diagram", "14"),
-        ("Figure 3.2", "Complete Entity Relationship Diagram (ERD) with 20 Normalized Tables", "17"),
-        ("Figure 3.3", "Level-0 Context Data Flow Diagram (DFD)", "19"),
-        ("Figure 3.4", "Level-1 Detailed Data Flow Diagram Showing Core PMIS Processes", "20"),
-        ("Figure 3.5", "Executive Dashboard Interface Wireframe & KPI Visualizer", "22"),
-        ("Figure 3.6", "Requirements Traceability Matrix and WBS Explorer View", "23"),
-        ("Figure 3.7", "Interactive Gantt Chart with Critical Path Highlighting", "23"),
-        ("Figure 3.8", "Quality Inspection Checklist & Defect Resolution Panel", "23"),
-        ("Figure 6.1", "Multi-Tier Deployment Topology (Local, Staging, Production VPS)", "42"),
-        ("Figure 8.1", "Cumulative S-Curve (PV vs. EV vs. AC) over 16 Calendar Weeks", "55"),
-        ("Figure 9.1", "Four-Layer Defense-in-Depth Security Architecture Model", "57")
+        ("Figure 2.1", "Project Charter Configuration Form & Baseline Authorization", "7"),
+        ("Figure 2.2", "Subsidiary Project Management Plan View & Governance Directives", "8"),
+        ("Figure 2.3", "Hierarchical Work Breakdown Structure (WBS) Explorer & Cost Roll-Up", "11"),
+        ("Figure 2.4", "Project Milestones Schedule & Critical Deliverable Target Dates", "13"),
+        ("Figure 3.1", "Three-Tier Decoupled System Architecture Diagram", "15"),
+        ("Figure 3.2", "Complete Entity Relationship Diagram (ERD) with 20 Normalized Tables", "18"),
+        ("Figure 3.3", "Level-0 Context Data Flow Diagram (DFD)", "20"),
+        ("Figure 3.4", "Level-1 Detailed Data Flow Diagram Showing Core PMIS Processes", "21"),
+        ("Figure 3.5", "Executive Dashboard Interface Wireframe & KPI Visualizer", "23"),
+        ("Figure 3.6", "Requirements Traceability Matrix and Deliverable Status View", "24"),
+        ("Figure 3.7", "Interactive Gantt Chart with Critical Path Highlighting", "25"),
+        ("Figure 3.8", "Quality Inspection Checklist & Deliverable Readiness Gate Panel", "26"),
+        ("Figure 4.1", "Unified 5-Hospital Clinical Operations Management Console", "32"),
+        ("Figure 4.2", "Automated 6-Point Project Data Integrity Audit Inspector", "33"),
+        ("Figure 5.1", "Backend Automated Test Suite Execution Output (70/70 Tests Passed)", "37"),
+        ("Figure 5.2", "Adversarial Security Attack Simulation Execution (8/8 Attacks Blocked)", "39"),
+        ("Figure 6.1", "Multi-Tier Deployment Topology (Local, Staging, Production VPS)", "44"),
+        ("Figure 7.1", "Process Decision Program Chart (PDPC) Tree for Contingency Planning", "49"),
+        ("Figure 7.2", "Quality Defects Register with Severity Categorization & Patch Status", "50"),
+        ("Figure 7.3", "Change Request Evaluation Panel & Impact Simulation Engine", "52"),
+        ("Figure 8.1", "EVM Financial Performance Dashboard & Governance Alert Warnings", "55"),
+        ("Figure 8.2", "Schedule CPM Table with Durations, Dependencies & Total Float", "57"),
+        ("Figure 8.3", "Delayed Activities Cascade Analysis Drawer", "58"),
+        ("Figure 8.4", "Cumulative S-Curve (PV vs. EV vs. AC) over 16 Calendar Weeks", "59"),
+        ("Figure 9.1", "Four-Layer Defense-in-Depth Security Architecture Model", "61"),
+        ("Figure 9.2", "5x5 Risk Probability-Impact Heatmap Matrix", "63"),
+        ("Figure 10.1", "Academic Examination Report View Formatted in Times New Roman", "66")
     ]
     for num, title, pg in figures_list:
         dots = "." * max(2, (80 - len(num) - len(title) - len(pg) - 2))
@@ -720,6 +756,9 @@ def generate_report():
         "3. Dependency Cycle Prevention: The scheduling engine utilizes Kahn's topological sort algorithm to reject any circular dependency "
         "injection during activity planning."
     )
+    add_figure_block(2, "Project Charter Configuration Form & Baseline Authorization",
+                     "This interface screen displays the formal Project Charter configuration, establishing the PKR 5,000,000 budget cap, the 16-week timeline (2026-09-01 to 2026-12-22), an 80-hour work week, and a 10% contingency reserve.",
+                     "fig02_charter_form.png")
 
     add_heading_2("2.2 Human Resource Allocation & RACI Matrix")
     add_p(
@@ -745,6 +784,9 @@ def generate_report():
     ]
     make_table(raci_data[0], raci_data[1:], [2.1, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7])
     add_table_desc("This RACI matrix defines the operational distribution of responsibilities across the seven project team members. Dr. Tariq Shah maintains sole accountability across all deliverables, while technical execution is distributed according to domain competencies.")
+    add_figure_block(2, "Subsidiary Project Management Plan View & Governance Directives",
+                     "This view presents the subsidiary project management plans (Scope, Schedule, Cost, Quality), codifying automated governance rules and resource role assignments across the 7-person team.",
+                     "fig03_management_plan.png")
 
     add_heading_2("2.3 Hardware, Software & Infrastructure Requirements")
     add_p(
@@ -799,6 +841,9 @@ def generate_report():
     ]
     make_table(wbs_data[0], wbs_data[1:], [0.8, 2.5, 1.2, 0.8, 1.2, 1.0])
     add_table_desc("This WBS dictionary details the complete hierarchical scope decomposition. The mathematical sum of all 13 activities equals exactly PKR 4,700,000, perfectly matching the project BAC without variance.")
+    add_figure_block(2, "Hierarchical Work Breakdown Structure (WBS) Explorer & Cost Roll-Up",
+                     "The WBS explorer demonstrates the hierarchical decomposition of project scope into work packages, showing duration, owner assignments, and exact planned cost roll-up totaling PKR 4,700,000.",
+                     "fig07_wbs_tree.png")
 
     add_heading_2("2.5 Schedule Baseline & Critical Path Method (CPM)")
     add_p(
@@ -825,6 +870,9 @@ def generate_report():
     ]
     make_table(act_table_data[0], act_table_data[1:], [0.6, 2.3, 0.9, 1.4, 1.0, 1.0, 1.1])
     add_table_desc("This table lists the 13 baseline work packages, defining the scheduling parameters utilized by the CPM forward pass. Baseline project finish is programmatically calculated as 2026-12-03, yielding an 18-day schedule buffer prior to the contractual deadline of 2026-12-27.")
+    add_figure_block(2, "Project Milestones Schedule & Critical Deliverable Target Dates",
+                     "This table displays the 5 contractual milestone gates established along the critical path across the 16 calendar weeks, linking major deliverables to completion dates.",
+                     "fig04_milestones.png")
 
     doc.add_page_break()
 
@@ -850,7 +898,7 @@ def generate_report():
 
     add_figure_block(3, "Three-Tier Decoupled System Architecture Diagram",
                      "This diagram illustrates the three system tiers: the React SPA client communicates via RESTful JSON API calls to the FastAPI application layer, which executes scheduling and EVM business rules and persists data to SQLite.",
-                     "Architecture Diagram: Presentation Layer (React 18) <-> Application Tier (FastAPI/Python 3.12) <-> Data Tier (SQLite 3.45 WAL)")
+                     "fig_arch_3tier.png")
 
     add_heading_2("3.2 Entity Relationship Diagram (ERD) & 20-Table Schema")
     add_p(
@@ -887,7 +935,7 @@ def generate_report():
 
     add_figure_block(3, "Complete Entity Relationship Diagram (ERD) with 20 Normalized Tables",
                      "This ERD visualizes the complete relational structure of the SPMIS, showing foreign key connections, table cardinalities (1-to-Many), and composite keys uniting the project governance tables with the hospital clinical domain.",
-                     "ERD Diagram: 20-Table Relational Schema with Cardinalities and Foreign Key Connectors")
+                     "fig_erd_20tables.png")
 
     add_heading_2("3.3 Data Flow Diagrams (Level-0 and Level-1)")
     add_p(
@@ -896,11 +944,11 @@ def generate_report():
     )
     add_figure_block(3, "Level-0 Context Data Flow Diagram (DFD)",
                      "This Level-0 context diagram shows the SPMIS boundary interacting with external entities: Project Manager, Software Engineering Team, Hospital Administrators, Clinical Doctors, Patients, and the Change Control Board (CCB).",
-                     "DFD Level-0: Context Boundary Diagram of SPMIS and External Stakeholder Entities")
+                     "fig_dfd_level0.png")
 
     add_figure_block(3, "Level-1 Detailed Data Flow Diagram Showing Core PMIS Processes",
                      "This Level-1 DFD decomposes internal system processing into six primary sub-processes: P1 (Initiation & Charter), P2 (Scope & WBS), P3 (CPM Schedule Engine), P4 (EVM Calculator), P5 (Quality & Risk Gates), and P6 (Hospital Clinical Operations).",
-                     "DFD Level-1: Internal Process Decomposition and Relational Data Store Data Flows")
+                     "fig_dfd_level1.png")
 
     add_heading_2("3.4 Core Architectural Governance Rules")
     add_p(
@@ -918,19 +966,19 @@ def generate_report():
     )
     add_figure_block(3, "Executive Dashboard Interface Wireframe & KPI Visualizer",
                      "The Executive Dashboard displays project health (Red/Amber/Green), EVM summary cards (CPI, SPI, EAC), delayed activity counters, and critical defect alerts.",
-                     "UI Wireframe: Executive Dashboard Page with KPI Cards, Health Badge, and Milestone Tracker")
+                     "fig01_dashboard.png")
 
-    add_figure_block(3, "Requirements Traceability Matrix and WBS Explorer View",
+    add_figure_block(3, "Requirements Traceability Matrix and Deliverable Status View",
                      "The Scope & WBS view displays the Requirements Traceability Matrix, the collapsible WBS tree with cost roll-up, and the Change Request impact simulator.",
-                     "UI Wireframe: Scope & WBS Page showing Requirements Table and Change Request Decision Modal")
+                     "fig05_requirements_list.png")
 
     add_figure_block(3, "Interactive Gantt Chart with Critical Path Highlighting",
                      "The Schedule view displays the SVG-rendered Gantt chart with dual baseline and forecast bars, highlighting critical path activities and delay cascades.",
-                     "UI Wireframe: Schedule & Gantt Chart Page displaying CPM Parameters and Cascade Impact Drawer")
+                     "fig11_gantt_chart.png")
 
-    add_figure_block(3, "Quality Inspection Checklist & Defect Resolution Panel",
+    add_figure_block(3, "Quality Inspection Checklist & Deliverable Readiness Gate Panel",
                      "The Quality & Risk view displays deliverable readiness cards, the 5-point inspection checklist, defect logging forms, and the 5x5 risk matrix.",
-                     "UI Wireframe: Quality & Risk Page showing Defect Tracker and Inspection Pass/Fail Gates")
+                     "fig16_quality_checklist.png")
 
     doc.add_page_break()
 
@@ -1043,6 +1091,9 @@ def generate_report():
     ]
     make_table(fe_comp_data[0], fe_comp_data[1:], [1.6, 1.1, 0.9, 3.5])
     add_table_desc("This table inventories the primary React components and page views comprising the frontend user interface.")
+    add_figure_block(4, "Unified 5-Hospital Clinical Operations Management Console",
+                     "This live operational console demonstrates clinical workflow management across the 5 teaching hospitals, including doctor shift rosters, outpatient appointment booking, patient longitudinal EMR records, and diagnostic lab tracking.",
+                     "fig22_hospital_console.png")
 
     add_heading_2("4.6 Database DDL Implementation & Constraint Logic")
     add_p(
@@ -1050,6 +1101,9 @@ def generate_report():
         "ensure invalid records cannot be committed even if application-level validation were bypassed. Singleton constraints (CHECK id = 1) "
         "on project_charter and management_plan guarantee only one active project baseline exists."
     )
+    add_figure_block(4, "Automated 6-Point Project Data Integrity Audit Inspector",
+                     "The integrity audit console executes continuous verification across database foreign keys, DAG acyclicity, budget ceilings, and checklist gates, providing real-time compliance validation.",
+                     "fig19_integrity_audit.png")
 
     doc.add_page_break()
 
@@ -1089,6 +1143,9 @@ def generate_report():
     ]
     make_table(t01_t09_data[0], t01_t09_data[1:], [0.5, 2.8, 1.3, 1.3, 0.6])
     add_table_desc("This table documents test results T01 through T09 from backend/test_cases.py, confirming 100% compliance with Project Charter initiation and validation rules.")
+    add_figure_block(5, "Backend Automated Test Suite Execution Output (70/70 Tests Passed)",
+                     "This dark-mode terminal capture confirms the execution and 100% pass rate of the 70 automated backend test cases across charter, schedule, EVM, defects, and clinical modules.",
+                     "fig20_test_run.png")
 
     add_heading_2("5.3 EVM & CPM Acceptance Test Verification")
     add_p(
@@ -1149,6 +1206,9 @@ def generate_report():
     ]
     make_table(adv_data[0], adv_data[1:], [0.3, 2.5, 2.5, 1.2])
     add_table_desc("This table shows the execution results of eight adversarial attack scenarios, confirming all illegal operations were successfully blocked by defensive validation layers.")
+    add_figure_block(5, "Adversarial Security Attack Simulation Execution (8/8 Attacks Blocked)",
+                     "Terminal output demonstrating the automated adversarial runner blocking 8 critical security attack vectors including circular dependencies, budget overruns, SQL injection, and invalid closure attempts.",
+                     "fig21_adversarial_tests.png")
 
     add_heading_2("5.5 Anti-Hardcoding Dynamic Verification")
     add_p(
@@ -1197,8 +1257,8 @@ def generate_report():
         "Each hospital branch connects securely via authenticated HTTPS sessions."
     )
     add_figure_block(6, "Multi-Tier Deployment Topology (Local, Staging, Production VPS)",
-                     "This architectural diagram illustrates the three deployment tiers, showing client browser connections routing through Nginx reverse proxies to the FastAPI ASGI server and SQLite database.",
-                     "Deployment Topology: Local Workstation -> Staging LAN Server -> Cloud Production VPS Infrastructure")
+                     "Comprehensive architectural deployment topology detailing developer workstation configuration, the central hospital staging server, and the cloud VPS production reverse-proxy environment.",
+                     "fig_deploy_topology.png")
 
     add_heading_2("6.2 Stakeholder Installation & Access Matrix")
     add_p(
@@ -1276,6 +1336,9 @@ def generate_report():
         "and regression verification. Defects transition across four formal states: Open -> In Progress -> Resolved -> Closed. "
         "The system's quality inspection gates strictly block deliverable sign-off while any Critical defect remains unresolved."
     )
+    add_figure_block(7, "Process Decision Program Chart (PDPC) Tree for Contingency Planning",
+                     "The PDPC tree identifies operational failure risks, maps preventative controls, and establishes emergency mitigation countermeasures for healthcare operations.",
+                     "fig18_pdpc_tree.png")
 
     add_heading_2("7.2 Resolution of Critical Case Study Defects")
     add_p(
@@ -1297,6 +1360,9 @@ def generate_report():
     ]
     make_table(defects_log_data[0], defects_log_data[1:], [0.8, 0.8, 1.4, 1.8, 0.9, 1.8])
     add_table_desc("This table presents the defect tracking log from the defects table, detailing severity levels, root causes, and resolution strategies.")
+    add_figure_block(7, "Quality Defects Register with Severity Categorization & Patch Status",
+                     "The defect tracking register visualizes all logged bugs, highlighting the successful triage and patch verification for DEF-01 (appointment race condition) and DEF-02 (EMR data leak).",
+                     "fig15_defect_tracker.png")
 
     add_heading_2("7.3 Database Operations, Checkpoints & Backups")
     add_p(
@@ -1320,6 +1386,9 @@ def generate_report():
     ]
     make_table(cr_impact_data[0], cr_impact_data[1:], [0.8, 1.8, 0.8, 1.0, 1.1, 0.8, 1.7])
     add_table_desc("This table documents the formal Change Requests stored in change_requests. Approving both CRs expands the budget to PKR 5,800,000 and extends the deadline to 2027-01-17 via atomic database transactions.")
+    add_figure_block(7, "Change Request Evaluation Panel & Impact Simulation Engine",
+                     "The change control interface simulates budget and schedule impacts for CR-001 (+PKR 450,000, +2 weeks) and CR-002 (+PKR 350,000, +1 week) with atomic transaction rollbacks.",
+                     "fig08_change_requests.png")
 
     doc.add_page_break()
 
@@ -1350,6 +1419,9 @@ def generate_report():
     ]
     make_table(evm_ledger_data[0], evm_ledger_data[1:], [1.0, 1.8, 1.7, 1.3, 1.7])
     add_table_desc("This table summarizes the Earned Value Management metrics calculated by logic.calculate_evm() as of the Week 8 status date (2026-10-26). Both CPI (0.898) and SPI (0.858) breach the 0.90 warning threshold, triggering executive alerts.")
+    add_figure_block(8, "EVM Financial Performance Dashboard & Governance Alert Warnings",
+                     "The Earned Value Management dashboard displays Week 8 financial metrics (CPI 0.898, SPI 0.858, EAC PKR 5,233,471) alongside governance warning alerts.",
+                     "fig13_evm_metrics.png")
 
     add_heading_2("8.2 System Latency & Operational Benchmarks")
     add_p(
@@ -1368,6 +1440,12 @@ def generate_report():
     ]
     make_table(benchmarks_data[0], benchmarks_data[1:], [1.8, 1.5, 1.0, 1.1, 1.1])
     add_table_desc("This table records the empirical latency benchmarks of core backend calculations, demonstrating sub-second execution across all project management and clinical transaction operations.")
+    add_figure_block(8, "Schedule CPM Table with Durations, Dependencies & Total Float",
+                     "Detailed CPM scheduling table displaying early/late start and finish dates, total slack, and critical path identification across all 11 activities.",
+                     "fig10_schedule_table.png")
+    add_figure_block(8, "Delayed Activities Cascade Analysis Drawer",
+                     "This view illustrates the schedule cascade impact where ACT-04's 3-day delay pushes downstream dependent activities ACT-05, ACT-08, ACT-09, ACT-10, and ACT-11.",
+                     "fig12_delay_impact.png")
 
     add_heading_2("8.3 Cumulative S-Curve Trend Analysis")
     add_p(
@@ -1376,8 +1454,8 @@ def generate_report():
         "while Actual Costs climbed above EV due to defect remediation expenditures."
     )
     add_figure_block(8, "Cumulative S-Curve (PV vs. EV vs. AC) over 16 Calendar Weeks",
-                     "The S-Curve plot illustrates cumulative project expenditures and value accrual. At the Week 8 checkpoint, the gap between PV and EV illustrates the Schedule Variance, while the gap between EV and AC illustrates the Cost Variance.",
-                     "Cumulative S-Curve Line Chart: Planned Value (Baseline) vs Earned Value vs Actual Cost over 16 Weeks")
+                     "The cumulative S-Curve plot illustrates Planned Value (Baseline), Earned Value, and Actual Cost over the 16 calendar weeks, highlighting the schedule and cost gaps at Week 8.",
+                     "fig14_s_curve.png")
 
     add_heading_2("8.4 High-Concurrency Scalability Assessment")
     add_p(
@@ -1403,8 +1481,8 @@ def generate_report():
         "• Layer 4 (Network & API Security): CORS middleware restricts cross-origin access, and standardized error handlers prevent stack-trace leakage."
     )
     add_figure_block(9, "Four-Layer Defense-in-Depth Security Architecture Model",
-                     "This diagram illustrates the four defensive boundaries protecting the SPMIS: Database CHECK Constraints -> Pydantic Schema Validation -> Business Logic Rules -> Network/API Security Layer.",
-                     "Security Layer Architecture: Database Level -> Model Validation -> Business Rules -> API Gateway")
+                     "Architectural model illustrating the four defensive boundaries: Database Constraints, Pydantic Schema Validation, Business Rule Governance, and Network/API Security.",
+                     "fig_security_layers.png")
 
     add_heading_2("9.2 Patient Data Privacy & Cross-Tenant Isolation")
     add_p(
@@ -1431,6 +1509,9 @@ def generate_report():
     ]
     make_table(sec_rules_data[0], sec_rules_data[1:], [1.5, 1.7, 1.8, 1.5])
     add_table_desc("This table outlines the technical validation rules implemented across the API, business logic, and database layers to prevent common injection attacks and data corruption.")
+    add_figure_block(9, "5x5 Risk Probability-Impact Heatmap Matrix",
+                     "Interactive 5x5 risk heat map showing likelihood vs. impact ratings for the 5 project risks (RSK-01 to RSK-05) with mitigation strategies.",
+                     "fig17_risk_matrix.png")
 
     add_heading_2("9.4 Role-Based Access Control (RBAC) Permissions")
     add_p(
@@ -1507,6 +1588,9 @@ def generate_report():
         "3. Unresolved Critical Defects: Blocked if any defect with 'Critical' severity remains in Open or In Progress status.\n"
         "Automated testing confirmed that attempting to close the project while DEF-01 or DEF-02 remained open raised an immediate ValueError."
     )
+    add_figure_block(10, "Academic Examination Report View Formatted in Times New Roman",
+                     "Single-page academic executive examination summary generated dynamically by the SPMIS frontend, formatted in Times New Roman with all verified metrics.",
+                     "fig23_academic_report.png")
 
     add_heading_2("10.4 Lessons Learned & Academic Reflection")
     add_p(
